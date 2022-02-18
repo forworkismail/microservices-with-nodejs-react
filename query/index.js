@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const posts = [];
+let posts = {};
 
 app.get('/posts', (req, res) => {
   res.send(posts);
@@ -22,12 +22,11 @@ app.post('/events', (req, res) => {
   }
 
   if (type === 'CommentCreated') {
-    const { id, content, postId } = data;
-
-    const post = posts[id];
-
-    posts.comments.push({ id, content, postId });
+    const { id, content, postId, status } = data;
+    let post = posts[postId];
+    post.comments.push({ id, content, postId, status });
   }
+
 
   res.send({});
 });
